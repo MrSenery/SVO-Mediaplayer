@@ -37,10 +37,13 @@
             this.PlayButton = new System.Windows.Forms.Button();
             this.MusicTimer = new System.Windows.Forms.Timer(this.components);
             this.MusicListBox = new System.Windows.Forms.ListView();
-            this.ColName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ColArtist = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ColAlbum = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ColLength = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.TrackCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.NameCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.AlbumCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ArtistCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.LengthCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Scroll = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.VolumeBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TimeBar)).BeginInit();
             this.SuspendLayout();
@@ -48,12 +51,14 @@
             // VolumeBar
             // 
             this.VolumeBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.VolumeBar.Location = new System.Drawing.Point(383, 45);
+            this.VolumeBar.Location = new System.Drawing.Point(424, 63);
             this.VolumeBar.Name = "VolumeBar";
             this.VolumeBar.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.VolumeBar.Size = new System.Drawing.Size(45, 146);
+            this.VolumeBar.Size = new System.Drawing.Size(45, 128);
             this.VolumeBar.TabIndex = 13;
             this.VolumeBar.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.VolumeBar.Scroll += new System.EventHandler(this.VolumeBar_Scroll);
+            this.VolumeBar.ValueChanged += new System.EventHandler(this.VolumeBar_ValueChanged);
             // 
             // TimeBar
             // 
@@ -61,13 +66,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TimeBar.Location = new System.Drawing.Point(124, 12);
             this.TimeBar.Name = "TimeBar";
-            this.TimeBar.Size = new System.Drawing.Size(334, 45);
+            this.TimeBar.Size = new System.Drawing.Size(375, 45);
             this.TimeBar.TabIndex = 12;
             // 
             // FolderButton
             // 
             this.FolderButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.FolderButton.Location = new System.Drawing.Point(383, 197);
+            this.FolderButton.Location = new System.Drawing.Point(424, 197);
             this.FolderButton.Name = "FolderButton";
             this.FolderButton.Size = new System.Drawing.Size(75, 23);
             this.FolderButton.TabIndex = 11;
@@ -77,7 +82,7 @@
             // FileButton
             // 
             this.FileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.FileButton.Location = new System.Drawing.Point(383, 226);
+            this.FileButton.Location = new System.Drawing.Point(424, 226);
             this.FileButton.Name = "FileButton";
             this.FileButton.Size = new System.Drawing.Size(75, 23);
             this.FileButton.TabIndex = 10;
@@ -107,44 +112,71 @@
             // 
             // MusicListBox
             // 
-            this.MusicListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.MusicListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.MusicListBox.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.ColName,
-            this.ColArtist,
-            this.ColAlbum,
-            this.ColLength});
+            this.TrackCol,
+            this.NameCol,
+            this.AlbumCol,
+            this.ArtistCol,
+            this.LengthCol});
             this.MusicListBox.Location = new System.Drawing.Point(12, 74);
             this.MusicListBox.Name = "MusicListBox";
-            this.MusicListBox.Size = new System.Drawing.Size(365, 175);
+            this.MusicListBox.Size = new System.Drawing.Size(406, 175);
             this.MusicListBox.TabIndex = 14;
             this.MusicListBox.UseCompatibleStateImageBehavior = false;
             this.MusicListBox.View = System.Windows.Forms.View.Details;
             // 
-            // ColName
+            // TrackCol
             // 
-            this.ColName.Text = "Name";
-            this.ColName.Width = 120;
+            this.TrackCol.Text = "Track";
+            this.TrackCol.Width = 40;
             // 
-            // ColArtist
+            // NameCol
             // 
-            this.ColArtist.Text = "Artist";
-            this.ColArtist.Width = 80;
+            this.NameCol.Text = "Name";
+            this.NameCol.Width = 120;
             // 
-            // ColAlbum
+            // AlbumCol
             // 
-            this.ColAlbum.Text = "Album";
-            this.ColAlbum.Width = 85;
+            this.AlbumCol.Text = "Album";
+            this.AlbumCol.Width = 80;
             // 
-            // ColLength
+            // ArtistCol
             // 
-            this.ColLength.Text = "Length";
-            this.ColLength.Width = 76;
+            this.ArtistCol.Text = "Artist";
+            this.ArtistCol.Width = 100;
+            // 
+            // LengthCol
+            // 
+            this.LengthCol.Text = "Length";
+            // 
+            // Scroll
+            // 
+            this.Scroll.AutoSize = true;
+            this.Scroll.Location = new System.Drawing.Point(475, 169);
+            this.Scroll.Name = "Scroll";
+            this.Scroll.Size = new System.Drawing.Size(21, 13);
+            this.Scroll.TabIndex = 15;
+            this.Scroll.Text = "0%";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(475, 142);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(21, 13);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "0%";
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(470, 261);
+            this.ClientSize = new System.Drawing.Size(511, 261);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.Scroll);
             this.Controls.Add(this.MusicListBox);
             this.Controls.Add(this.VolumeBar);
             this.Controls.Add(this.TimeBar);
@@ -171,10 +203,13 @@
         private System.Windows.Forms.Button PlayButton;
         private System.Windows.Forms.Timer MusicTimer;
         private System.Windows.Forms.ListView MusicListBox;
-        private System.Windows.Forms.ColumnHeader ColName;
-        private System.Windows.Forms.ColumnHeader ColArtist;
-        private System.Windows.Forms.ColumnHeader ColAlbum;
-        private System.Windows.Forms.ColumnHeader ColLength;
+        private System.Windows.Forms.ColumnHeader TrackCol;
+        private System.Windows.Forms.ColumnHeader NameCol;
+        private System.Windows.Forms.ColumnHeader AlbumCol;
+        private System.Windows.Forms.ColumnHeader ArtistCol;
+        private System.Windows.Forms.ColumnHeader LengthCol;
+        private System.Windows.Forms.Label Scroll;
+        private System.Windows.Forms.Label label1;
 
     }
 }
