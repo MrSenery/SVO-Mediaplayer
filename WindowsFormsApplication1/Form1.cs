@@ -21,32 +21,36 @@ namespace WindowsFormsApplication1
         OpenFileDialog Mp3File = new OpenFileDialog();
         List<string> Items = new List<string>();
         private NAudio.Wave.DirectSoundOut output = null;
+        int VolValue;
+        int Minutes = 0;
+        int Seconds = 0;
         public Main()
         {
             InitializeComponent();
             Mp3File.FileName = "";
-            Player.Volume = 0f;
+            Player.Volume = 1f;
             VolumeBar.TickFrequency = 33;
             VolumeBar.Maximum = 100;
+            VolValue = 0;
         }
 
         private void PlayButton_Click(object sender, EventArgs e)
         {
             try
             {
-                output = new NAudio.Wave.DirectSoundOut();
                 Player.Play();
                 MusicTimer.Start();
-
             }
             catch (Exception ex)
             {
                 
             }
+
         }
         private void PauseButton_Click(object sender, EventArgs e)
         {
             Player.Pause();
+            MusicTimer.Stop();
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
@@ -88,19 +92,30 @@ namespace WindowsFormsApplication1
         {
 
         }
-
         private void VolumeBar_ValueChanged(object sender, EventArgs e)
         {
             Scroll.Text = VolumeBar.Value + "%";
-            int VolValue = VolumeBar.Value + 1;
-            if (VolumeBar.Value < VolValue)
+            if (VolValue == VolumeBar.Value - 1)
             {
+                Player.Volume += 0.01f; 
+            } else {
                 Player.Volume -= 0.01f;
             }
-            else
+            VolValue = VolumeBar.Value;
+        }
+
+        private void MusicTimer_Tick(object sender, EventArgs e)
+        {
+            Seconds = Seconds + 1;
+            TimeBar.SmallChange = Seconds;
+            if (Seconds >= 60)
             {
-                Player.Volume += 0.01f;
+                Seconds = 0;
+                Minutes = Minutes + 1;
             }
+            TimeBar.Value = Seconds;
+            float TotalTime = Minutes + Seconds;
+            LabelTime.Text = TotalTime.ToString();
         }
     }
 }

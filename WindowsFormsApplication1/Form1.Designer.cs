@@ -43,14 +43,16 @@
             this.ArtistCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LengthCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Scroll = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.LabelTime = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.VolumeBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TimeBar)).BeginInit();
             this.SuspendLayout();
             // 
             // VolumeBar
             // 
-            this.VolumeBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.VolumeBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.VolumeBar.LargeChange = 0;
             this.VolumeBar.Location = new System.Drawing.Point(424, 63);
             this.VolumeBar.Name = "VolumeBar";
             this.VolumeBar.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -110,6 +112,11 @@
             this.PlayButton.UseVisualStyleBackColor = true;
             this.PlayButton.Click += new System.EventHandler(this.PlayButton_Click);
             // 
+            // MusicTimer
+            // 
+            this.MusicTimer.Interval = 1000;
+            this.MusicTimer.Tick += new System.EventHandler(this.MusicTimer_Tick);
+            // 
             // MusicListBox
             // 
             this.MusicListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -154,28 +161,30 @@
             // 
             // Scroll
             // 
+            this.Scroll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.Scroll.AutoSize = true;
+            this.Scroll.Cursor = System.Windows.Forms.Cursors.Default;
+            this.Scroll.ForeColor = System.Drawing.SystemColors.ControlText;
             this.Scroll.Location = new System.Drawing.Point(475, 169);
             this.Scroll.Name = "Scroll";
             this.Scroll.Size = new System.Drawing.Size(21, 13);
             this.Scroll.TabIndex = 15;
             this.Scroll.Text = "0%";
             // 
-            // label1
+            // LabelTime
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(475, 142);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(21, 13);
-            this.label1.TabIndex = 16;
-            this.label1.Text = "0%";
+            this.LabelTime.AutoSize = true;
+            this.LabelTime.Location = new System.Drawing.Point(135, 49);
+            this.LabelTime.Name = "LabelTime";
+            this.LabelTime.Size = new System.Drawing.Size(0, 13);
+            this.LabelTime.TabIndex = 16;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(511, 261);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.LabelTime);
             this.Controls.Add(this.Scroll);
             this.Controls.Add(this.MusicListBox);
             this.Controls.Add(this.VolumeBar);
@@ -209,7 +218,7 @@
         private System.Windows.Forms.ColumnHeader ArtistCol;
         private System.Windows.Forms.ColumnHeader LengthCol;
         private System.Windows.Forms.Label Scroll;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label LabelTime;
 
     }
 }
