@@ -70,6 +70,9 @@
             this.TimeBar.Name = "TimeBar";
             this.TimeBar.Size = new System.Drawing.Size(375, 45);
             this.TimeBar.TabIndex = 12;
+            this.TimeBar.TickFrequency = 5;
+            this.TimeBar.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.TimeBar.Scroll += new System.EventHandler(this.TimeBar_Scroll);
             // 
             // FolderButton
             // 
@@ -129,11 +132,13 @@
             this.ArtistCol,
             this.LengthCol});
             this.MusicListBox.Location = new System.Drawing.Point(12, 74);
+            this.MusicListBox.MultiSelect = false;
             this.MusicListBox.Name = "MusicListBox";
             this.MusicListBox.Size = new System.Drawing.Size(406, 175);
             this.MusicListBox.TabIndex = 14;
             this.MusicListBox.UseCompatibleStateImageBehavior = false;
             this.MusicListBox.View = System.Windows.Forms.View.Details;
+            this.MusicListBox.SelectedIndexChanged += new System.EventHandler(this.MusicListBox_SelectedIndexChanged);
             // 
             // TrackCol
             // 
@@ -176,8 +181,9 @@
             this.LabelTime.AutoSize = true;
             this.LabelTime.Location = new System.Drawing.Point(135, 49);
             this.LabelTime.Name = "LabelTime";
-            this.LabelTime.Size = new System.Drawing.Size(0, 13);
+            this.LabelTime.Size = new System.Drawing.Size(49, 13);
             this.LabelTime.TabIndex = 16;
+            this.LabelTime.Text = "00:00:00";
             // 
             // Main
             // 
