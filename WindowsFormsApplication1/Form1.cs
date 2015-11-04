@@ -21,14 +21,19 @@ namespace WindowsFormsApplication1
         OpenFileDialog Mp3File = new OpenFileDialog();
         List<string> Items = new List<string>();
         static int Count = 100;
-        string[] Mp3Array = new string[Count];
-        static int i = -1;
+        List<string> Mp3Array = new List<string>();
+        //string[] Mp3Array = new string[Count];
+        static int i = 0;
         int Hours = 0;
         int Minutes = 0;
         int Seconds = 0;
         int AddTime = 0;
         int a = 0;
         bool CheckPlay = true;
+        bool CheckAutoPlay = true;
+        bool CheckShuffle = false;
+        bool CheckFocusedItem = false;
+        bool CheckItems = false;
         public Main()
         {
             InitializeComponent();
@@ -42,8 +47,35 @@ namespace WindowsFormsApplication1
         {
             try
             {
+                if (CheckFocusedItem)
+                {
+                    TagLib.File TagFile = TagLib.File.Create(Mp3Array[a]);
+                    LabelInfoArtist.Text = TagFile.Tag.FirstPerformer + " - " + TagFile.Tag.Title;
+                    Player.Pause();
+                    MusicTimer.Stop();
+                    Seconds = 0;
+                    Minutes = 0;
+                    Hours = 0;
+                    AddTime = 0;
+                    TimeBar.Maximum = 0;
+                    TimeBar.Value = 0;
+                    a = MusicListBox.FocusedItem.Index;
+                    Mp3FileReader Mp3Duration = new Mp3FileReader(Mp3Array[a]);
+                    TimeSpan Length = Mp3Duration.TotalTime;
+                    string StrLength = Length.ToString();
+                    int Index = StrLength.LastIndexOf(".");
+                    StrLength = StrLength.Substring(0, Index);
+                    LabelTime.Text = "00:00:00 / " + StrLength;
+                    TimeBar.Maximum = 0;
+                    TimeBar.Value = 0;
+                    AudioFileReader File = new AudioFileReader(Mp3Array[a]);
+                    Player.Init(File);
+                    CheckPlay = true;
+                }
                 if (CheckPlay == true)
                 {
+                    TagLib.File TagFile = TagLib.File.Create(Mp3Array[a]);
+                    LabelInfoArtist.Text = TagFile.Tag.FirstPerformer + " - " + TagFile.Tag.Title;
                     Player.Play();
                     MusicTimer.Start();
                     CheckPlay = false;
@@ -73,49 +105,6 @@ namespace WindowsFormsApplication1
         {
             Application.Exit();
         }
-
-        private void FileButton_Click(object sender, EventArgs e)
-        {
-            Mp3File.Title = "Choose a .mp3 file";
-            Mp3File.Filter = "Mp3 Files|*.mp3";
-            Mp3File.InitialDirectory = "C:/";
-            Mp3File.Multiselect = true;
-            if (Mp3File.ShowDialog() == DialogResult.OK)
-            {
-                string[] TempMp3Array = Mp3File.FileNames;
-                foreach (var Items in TempMp3Array)
-                {
-                    i++;
-                    Mp3Array[i] = Items;
-                    
-                }
-                foreach (var Items in Mp3Array)
-                {
-                    try
-                    {
-                        TagLib.File TagFile = TagLib.File.Create(Items);
-                        Mp3FileReader Mp3Duration = new Mp3FileReader(Items);
-                        TimeSpan Length = Mp3Duration.TotalTime;
-                        string StrLength = Length.ToString();
-                        int Index = StrLength.LastIndexOf(".");
-                        StrLength = StrLength.Substring(0, Index);
-                        ListViewItem item = new ListViewItem();
-                        item.Text = TagFile.Tag.Track.ToString();
-                        item.SubItems.Add(TagFile.Tag.Title);
-                        item.SubItems.Add(TagFile.Tag.FirstPerformer);
-                        item.SubItems.Add(TagFile.Tag.Album);
-                        item.SubItems.Add(StrLength);
-                        MusicListBox.Items.Add(item);
-                    }
-                    catch
-                    {
-                        break;
-                    }
-                    
-                }                
-            }
-        }
-
         private void VolumeBar_Scroll(object sender, EventArgs e)
         {
 
@@ -157,24 +146,63 @@ namespace WindowsFormsApplication1
                 else
                 {
                     string TotalTime = "0" + Hours.ToString() + ":" + "0" + Minutes.ToString() + ":" + Seconds.ToString();
-                    LabelTime.Text = TotalTime + "/" + StrLength;
+                    LabelTime.Text = TotalTime + " / " + StrLength;
                 }
             }
             else
             {
                 string TotalTime = "0" + Hours.ToString() + ":" + "0" + Minutes.ToString() + ":0" + Seconds.ToString();
-                LabelTime.Text = TotalTime + "/" + StrLength;
+                LabelTime.Text = TotalTime + " / " + StrLength;
             }
             if (TimeBar.Value == MaxTime)
             {
-                LabelTime.Text = "00:00:00 / 00:00:00";
-                a++;
-                TimeBar.Maximum = 0;
-                TimeBar.Value = 0;
-                MaxTime = 0;
-                AudioFileReader File = new AudioFileReader(Mp3Array[a]);
-                Player.Init(File);
-                Player.Play();
+                if (CheckAutoPlay == true)
+                {
+                    if (CheckShuffle == true)
+                    {
+                        Seconds = 0;
+                        Minutes = 0;
+                        Hours = 0;
+                        AddTime = 0;
+                        LabelTime.Text = "00:00:00 / 00:00:00";
+                        TimeBar.Maximum = 0;
+                        TimeBar.Value = 0;
+                        MaxTime = 0;
+                        Random rnd = new Random();
+                        a = rnd.Next(0, Mp3Array.Count());
+                        AudioFileReader File = new AudioFileReader(Mp3Array[a]);
+                        Player.Init(File);
+                        Player.Play();
+                    }
+                    else
+                    {
+                        Seconds = 0;
+                        Minutes = 0;
+                        Hours = 0;
+                        AddTime = 0;
+                        LabelTime.Text = "00:00:00 / 00:00:00";
+                        TimeBar.Maximum = 0;
+                        TimeBar.Value = 0;
+                        MaxTime = 0;
+                        a++;
+                        AudioFileReader File = new AudioFileReader(Mp3Array[a]);
+                        Player.Init(File);
+                        Player.Play();
+                    }
+                }
+                else
+                {
+                    Seconds = 0;
+                    Minutes = 0;
+                    Hours = 0;
+                    AddTime = 0;
+                    LabelTime.Text = "00:00:00 / 00:00:00";
+                    TimeBar.Maximum = 0;
+                    TimeBar.Value = 0;
+                    MaxTime = 0;
+                    a = 0;
+                    MusicTimer.Stop();
+                }
             }
         }
 
@@ -185,10 +213,75 @@ namespace WindowsFormsApplication1
 
         private void MusicListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            a = MusicListBox.FocusedItem.Index;
-            AudioFileReader File = new AudioFileReader(Mp3Array[a]);
-            Player.Init(File);
+             CheckFocusedItem = true;
+        }
+        private void SettingsAddFile_Click(object sender, EventArgs e)
+        {
+            Mp3File.Title = "Choose a .mp3 file";
+            Mp3File.Filter = "Mp3 Files|*.mp3";
+            Mp3File.InitialDirectory = "C:/";
+            Mp3File.Multiselect = true;
+            if (Mp3File.ShowDialog() == DialogResult.OK)
+            {
+                string[] TempMp3Array = Mp3File.FileNames;
+                foreach (var Items in TempMp3Array)
+                {
+                    Mp3Array.Add(Items);
+                }
+                if (CheckItems)
+                {
+                    MusicListBox.Items.Clear();
+                }
+                foreach (var Items in Mp3Array)
+                {
+                    try
+                    {
+                        TagLib.File TagFile = TagLib.File.Create(Items);
+                        Mp3FileReader Mp3Duration = new Mp3FileReader(Items);
+                        TimeSpan Length = Mp3Duration.TotalTime;
+                        string StrLength = Length.ToString();
+                        int Index = StrLength.LastIndexOf(".");
+                        StrLength = StrLength.Substring(0, Index);
+                        ListViewItem item = new ListViewItem();
+                        item.Text = TagFile.Tag.Track.ToString();
+                        item.SubItems.Add(TagFile.Tag.Title);
+                        item.SubItems.Add(TagFile.Tag.FirstPerformer);
+                        item.SubItems.Add(TagFile.Tag.Album);
+                        item.SubItems.Add(StrLength);
+                        MusicListBox.Items.Add(item);
+                        CheckItems = true;
+                    }
+                    catch
+                    {
+                        break;
+                    }
+
+                }
+            }
         }
 
+        private void CheckBoxAutoPlay_Click(object sender, EventArgs e)
+        {
+            if (CheckPlay)
+            {
+                CheckPlay = true;
+            }
+            else
+            {
+                CheckAutoPlay = false;
+            }
+        }
+
+        private void CheckBoxShuffle_Click(object sender, EventArgs e)
+        {
+            if (CheckShuffle)
+            {
+                CheckShuffle = false;
+            }
+            else
+            {
+                CheckShuffle = true;
+            }
+        }
     }
 }
