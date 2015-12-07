@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.VolumeBar = new System.Windows.Forms.TrackBar();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.TimeBar = new System.Windows.Forms.TrackBar();
             this.PauseButton = new System.Windows.Forms.Button();
             this.PlayButton = new System.Windows.Forms.Button();
@@ -40,41 +40,34 @@
             this.AlbumCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ArtistCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.LengthCol = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Scroll = new System.Windows.Forms.Label();
             this.LabelTime = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.SettingsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingsAddFile = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingsAddFolder = new System.Windows.Forms.ToolStripMenuItem();
-            this.SettingsNewPlaylist = new System.Windows.Forms.ToolStripMenuItem();
-            this.SettingsImportPlayList = new System.Windows.Forms.ToolStripMenuItem();
-            this.FolderButton = new System.Windows.Forms.Button();
+            this.playlistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.NewPlayListMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.EditPlaylistMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.CheckBoxShuffle = new System.Windows.Forms.CheckBox();
             this.CheckBoxAutoPlay = new System.Windows.Forms.CheckBox();
-            this.LabelInfoArtist = new System.Windows.Forms.Label();
-            this.LabelLyrics = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.VolumeBar)).BeginInit();
+            this.CoverBox = new System.Windows.Forms.PictureBox();
+            this.InfoArtist = new System.Windows.Forms.TextBox();
+            this.DeleteButt = new System.Windows.Forms.Button();
+            this.ClearListButt = new System.Windows.Forms.Button();
+            this.NamePlaylist = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Playlists = new System.Windows.Forms.ListView();
+            this.deletePlaylistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.TimeBar)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.CoverBox)).BeginInit();
             this.SuspendLayout();
-            // 
-            // VolumeBar
-            // 
-            this.VolumeBar.LargeChange = 0;
-            this.VolumeBar.Location = new System.Drawing.Point(441, 81);
-            this.VolumeBar.Name = "VolumeBar";
-            this.VolumeBar.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.VolumeBar.Size = new System.Drawing.Size(45, 204);
-            this.VolumeBar.TabIndex = 13;
-            this.VolumeBar.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.VolumeBar.Scroll += new System.EventHandler(this.VolumeBar_Scroll);
-            this.VolumeBar.ValueChanged += new System.EventHandler(this.VolumeBar_ValueChanged);
             // 
             // TimeBar
             // 
-            this.TimeBar.Location = new System.Drawing.Point(124, 35);
+            this.TimeBar.Enabled = false;
+            this.TimeBar.Location = new System.Drawing.Point(0, 142);
             this.TimeBar.Name = "TimeBar";
-            this.TimeBar.Size = new System.Drawing.Size(392, 45);
+            this.TimeBar.Size = new System.Drawing.Size(307, 45);
             this.TimeBar.TabIndex = 12;
             this.TimeBar.TickFrequency = 5;
             this.TimeBar.TickStyle = System.Windows.Forms.TickStyle.None;
@@ -82,12 +75,13 @@
             // 
             // PauseButton
             // 
-            this.PauseButton.Location = new System.Drawing.Point(68, 30);
+            this.PauseButton.Location = new System.Drawing.Point(12, 30);
             this.PauseButton.Name = "PauseButton";
             this.PauseButton.Size = new System.Drawing.Size(50, 50);
             this.PauseButton.TabIndex = 8;
             this.PauseButton.Text = "Pause";
             this.PauseButton.UseVisualStyleBackColor = true;
+            this.PauseButton.Visible = false;
             this.PauseButton.Click += new System.EventHandler(this.PauseButton_Click);
             // 
             // PlayButton
@@ -113,14 +107,16 @@
             this.AlbumCol,
             this.ArtistCol,
             this.LengthCol});
-            this.MusicListBox.Location = new System.Drawing.Point(12, 88);
+            this.MusicListBox.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.MusicListBox.Location = new System.Drawing.Point(312, 30);
             this.MusicListBox.MultiSelect = false;
             this.MusicListBox.Name = "MusicListBox";
-            this.MusicListBox.Size = new System.Drawing.Size(423, 204);
+            this.MusicListBox.Size = new System.Drawing.Size(434, 286);
             this.MusicListBox.TabIndex = 14;
             this.MusicListBox.UseCompatibleStateImageBehavior = false;
             this.MusicListBox.View = System.Windows.Forms.View.Details;
             this.MusicListBox.SelectedIndexChanged += new System.EventHandler(this.MusicListBox_SelectedIndexChanged);
+            this.MusicListBox.DoubleClick += new System.EventHandler(this.MusicListBox_DoubleClick);
             // 
             // TrackCol
             // 
@@ -146,21 +142,10 @@
             // 
             this.LengthCol.Text = "Length";
             // 
-            // Scroll
-            // 
-            this.Scroll.AutoSize = true;
-            this.Scroll.Cursor = System.Windows.Forms.Cursors.Default;
-            this.Scroll.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.Scroll.Location = new System.Drawing.Point(451, 282);
-            this.Scroll.Name = "Scroll";
-            this.Scroll.Size = new System.Drawing.Size(21, 13);
-            this.Scroll.TabIndex = 15;
-            this.Scroll.Text = "0%";
-            // 
             // LabelTime
             // 
             this.LabelTime.AutoSize = true;
-            this.LabelTime.Location = new System.Drawing.Point(135, 67);
+            this.LabelTime.Location = new System.Drawing.Point(9, 116);
             this.LabelTime.Name = "LabelTime";
             this.LabelTime.Size = new System.Drawing.Size(102, 13);
             this.LabelTime.TabIndex = 16;
@@ -169,10 +154,11 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.SettingsMenu});
+            this.SettingsMenu,
+            this.playlistToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(610, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(755, 24);
             this.menuStrip1.TabIndex = 17;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -180,51 +166,51 @@
             // 
             this.SettingsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SettingsAddFile,
-            this.SettingsAddFolder,
-            this.SettingsNewPlaylist,
-            this.SettingsImportPlayList});
+            this.SettingsAddFolder});
             this.SettingsMenu.Name = "SettingsMenu";
-            this.SettingsMenu.Size = new System.Drawing.Size(61, 20);
-            this.SettingsMenu.Text = "Settings";
+            this.SettingsMenu.Size = new System.Drawing.Size(50, 20);
+            this.SettingsMenu.Text = "Menu";
             // 
             // SettingsAddFile
             // 
             this.SettingsAddFile.Name = "SettingsAddFile";
-            this.SettingsAddFile.Size = new System.Drawing.Size(150, 22);
+            this.SettingsAddFile.Size = new System.Drawing.Size(132, 22);
             this.SettingsAddFile.Text = "Add File";
             this.SettingsAddFile.Click += new System.EventHandler(this.SettingsAddFile_Click);
             // 
             // SettingsAddFolder
             // 
             this.SettingsAddFolder.Name = "SettingsAddFolder";
-            this.SettingsAddFolder.Size = new System.Drawing.Size(150, 22);
+            this.SettingsAddFolder.Size = new System.Drawing.Size(132, 22);
             this.SettingsAddFolder.Text = "Add Folder";
             // 
-            // SettingsNewPlaylist
+            // playlistToolStripMenuItem
             // 
-            this.SettingsNewPlaylist.Name = "SettingsNewPlaylist";
-            this.SettingsNewPlaylist.Size = new System.Drawing.Size(150, 22);
-            this.SettingsNewPlaylist.Text = "New Playlist";
+            this.playlistToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.NewPlayListMenu,
+            this.EditPlaylistMenu,
+            this.deletePlaylistToolStripMenuItem});
+            this.playlistToolStripMenuItem.Name = "playlistToolStripMenuItem";
+            this.playlistToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.playlistToolStripMenuItem.Text = "Playlist";
             // 
-            // SettingsImportPlayList
+            // NewPlayListMenu
             // 
-            this.SettingsImportPlayList.Name = "SettingsImportPlayList";
-            this.SettingsImportPlayList.Size = new System.Drawing.Size(150, 22);
-            this.SettingsImportPlayList.Text = "Import Playlist";
+            this.NewPlayListMenu.Name = "NewPlayListMenu";
+            this.NewPlayListMenu.Size = new System.Drawing.Size(152, 22);
+            this.NewPlayListMenu.Text = "New Playlist";
+            this.NewPlayListMenu.Click += new System.EventHandler(this.newPlaylistToolStripMenuItem_Click);
             // 
-            // FolderButton
+            // EditPlaylistMenu
             // 
-            this.FolderButton.Location = new System.Drawing.Point(523, 269);
-            this.FolderButton.Name = "FolderButton";
-            this.FolderButton.Size = new System.Drawing.Size(75, 23);
-            this.FolderButton.TabIndex = 11;
-            this.FolderButton.Text = "Folder";
-            this.FolderButton.UseVisualStyleBackColor = true;
+            this.EditPlaylistMenu.Name = "EditPlaylistMenu";
+            this.EditPlaylistMenu.Size = new System.Drawing.Size(152, 22);
+            this.EditPlaylistMenu.Text = "Edit Playlist";
             // 
             // CheckBoxShuffle
             // 
             this.CheckBoxShuffle.AutoSize = true;
-            this.CheckBoxShuffle.Location = new System.Drawing.Point(539, 30);
+            this.CheckBoxShuffle.Location = new System.Drawing.Point(68, 40);
             this.CheckBoxShuffle.Name = "CheckBoxShuffle";
             this.CheckBoxShuffle.Size = new System.Drawing.Size(59, 17);
             this.CheckBoxShuffle.TabIndex = 18;
@@ -237,7 +223,7 @@
             this.CheckBoxAutoPlay.AutoSize = true;
             this.CheckBoxAutoPlay.Checked = true;
             this.CheckBoxAutoPlay.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CheckBoxAutoPlay.Location = new System.Drawing.Point(539, 53);
+            this.CheckBoxAutoPlay.Location = new System.Drawing.Point(68, 63);
             this.CheckBoxAutoPlay.Name = "CheckBoxAutoPlay";
             this.CheckBoxAutoPlay.Size = new System.Drawing.Size(70, 17);
             this.CheckBoxAutoPlay.TabIndex = 19;
@@ -245,49 +231,99 @@
             this.CheckBoxAutoPlay.UseVisualStyleBackColor = true;
             this.CheckBoxAutoPlay.Click += new System.EventHandler(this.CheckBoxAutoPlay_Click);
             // 
-            // LabelInfoArtist
+            // CoverBox
             // 
-            this.LabelInfoArtist.AutoSize = true;
-            this.LabelInfoArtist.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LabelInfoArtist.Location = new System.Drawing.Point(274, 24);
-            this.LabelInfoArtist.Name = "LabelInfoArtist";
-            this.LabelInfoArtist.Size = new System.Drawing.Size(0, 12);
-            this.LabelInfoArtist.TabIndex = 20;
-            this.LabelInfoArtist.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.CoverBox.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.CoverBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.CoverBox.ErrorImage = ((System.Drawing.Image)(resources.GetObject("CoverBox.ErrorImage")));
+            this.CoverBox.Location = new System.Drawing.Point(203, 26);
+            this.CoverBox.Name = "CoverBox";
+            this.CoverBox.Size = new System.Drawing.Size(104, 105);
+            this.CoverBox.TabIndex = 21;
+            this.CoverBox.TabStop = false;
             // 
-            // LabelLyrics
+            // InfoArtist
             // 
-            this.LabelLyrics.AutoSize = true;
-            this.LabelLyrics.Location = new System.Drawing.Point(492, 88);
-            this.LabelLyrics.Name = "LabelLyrics";
-            this.LabelLyrics.Size = new System.Drawing.Size(0, 13);
-            this.LabelLyrics.TabIndex = 21;
+            this.InfoArtist.BackColor = System.Drawing.SystemColors.Control;
+            this.InfoArtist.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.InfoArtist.Location = new System.Drawing.Point(13, 131);
+            this.InfoArtist.Name = "InfoArtist";
+            this.InfoArtist.Size = new System.Drawing.Size(294, 13);
+            this.InfoArtist.TabIndex = 22;
+            this.InfoArtist.Text = "Text";
+            this.InfoArtist.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // DeleteButt
+            // 
+            this.DeleteButt.Location = new System.Drawing.Point(12, 86);
+            this.DeleteButt.Name = "DeleteButt";
+            this.DeleteButt.Size = new System.Drawing.Size(64, 23);
+            this.DeleteButt.TabIndex = 23;
+            this.DeleteButt.Text = "Delete";
+            this.DeleteButt.UseVisualStyleBackColor = true;
+            this.DeleteButt.Click += new System.EventHandler(this.DeleteButt_Click);
+            // 
+            // ClearListButt
+            // 
+            this.ClearListButt.Location = new System.Drawing.Point(82, 86);
+            this.ClearListButt.Name = "ClearListButt";
+            this.ClearListButt.Size = new System.Drawing.Size(64, 23);
+            this.ClearListButt.TabIndex = 24;
+            this.ClearListButt.Text = "Clear List";
+            this.ClearListButt.UseVisualStyleBackColor = true;
+            this.ClearListButt.Click += new System.EventHandler(this.ClearListButt_Click);
+            // 
+            // NamePlaylist
+            // 
+            this.NamePlaylist.Text = "Playlists";
+            this.NamePlaylist.Width = 271;
+            // 
+            // Playlists
+            // 
+            this.Playlists.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.NamePlaylist});
+            this.Playlists.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.Playlists.Location = new System.Drawing.Point(12, 166);
+            this.Playlists.Name = "Playlists";
+            this.Playlists.Size = new System.Drawing.Size(294, 150);
+            this.Playlists.TabIndex = 25;
+            this.Playlists.UseCompatibleStateImageBehavior = false;
+            this.Playlists.View = System.Windows.Forms.View.Details;
+            this.Playlists.SelectedIndexChanged += new System.EventHandler(this.Playlists_SelectedIndexChanged);
+            // 
+            // deletePlaylistToolStripMenuItem
+            // 
+            this.deletePlaylistToolStripMenuItem.Name = "deletePlaylistToolStripMenuItem";
+            this.deletePlaylistToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deletePlaylistToolStripMenuItem.Text = "Delete Playlist";
+            this.deletePlaylistToolStripMenuItem.Click += new System.EventHandler(this.deletePlaylistToolStripMenuItem_Click);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(610, 304);
-            this.Controls.Add(this.LabelLyrics);
-            this.Controls.Add(this.LabelInfoArtist);
+            this.ClientSize = new System.Drawing.Size(755, 328);
+            this.Controls.Add(this.Playlists);
+            this.Controls.Add(this.ClearListButt);
+            this.Controls.Add(this.DeleteButt);
+            this.Controls.Add(this.InfoArtist);
+            this.Controls.Add(this.CoverBox);
             this.Controls.Add(this.CheckBoxAutoPlay);
             this.Controls.Add(this.CheckBoxShuffle);
             this.Controls.Add(this.LabelTime);
-            this.Controls.Add(this.Scroll);
             this.Controls.Add(this.MusicListBox);
-            this.Controls.Add(this.VolumeBar);
             this.Controls.Add(this.TimeBar);
-            this.Controls.Add(this.FolderButton);
             this.Controls.Add(this.PauseButton);
             this.Controls.Add(this.PlayButton);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.VolumeBar)).EndInit();
+            this.Load += new System.EventHandler(this.Main_Load);
             ((System.ComponentModel.ISupportInitialize)(this.TimeBar)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.CoverBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -295,31 +331,33 @@
 
         #endregion
 
-        private System.Windows.Forms.TrackBar VolumeBar;
         private System.Windows.Forms.TrackBar TimeBar;
         private System.Windows.Forms.Button PauseButton;
         private System.Windows.Forms.Button PlayButton;
         private System.Windows.Forms.Timer MusicTimer;
-        private System.Windows.Forms.ListView MusicListBox;
         private System.Windows.Forms.ColumnHeader TrackCol;
         private System.Windows.Forms.ColumnHeader NameCol;
         private System.Windows.Forms.ColumnHeader AlbumCol;
         private System.Windows.Forms.ColumnHeader ArtistCol;
         private System.Windows.Forms.ColumnHeader LengthCol;
-        private System.Windows.Forms.Label Scroll;
         private System.Windows.Forms.Label LabelTime;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem SettingsMenu;
         private System.Windows.Forms.ToolStripMenuItem SettingsAddFile;
         private System.Windows.Forms.ToolStripMenuItem SettingsAddFolder;
-        private System.Windows.Forms.ToolStripMenuItem SettingsNewPlaylist;
-        private System.Windows.Forms.ToolStripMenuItem SettingsImportPlayList;
-        private System.Windows.Forms.Button FolderButton;
         private System.Windows.Forms.CheckBox CheckBoxShuffle;
         private System.Windows.Forms.CheckBox CheckBoxAutoPlay;
-        private System.Windows.Forms.Label LabelInfoArtist;
-        private System.Windows.Forms.Label LabelLyrics;
-
+        private System.Windows.Forms.PictureBox CoverBox;
+        private System.Windows.Forms.TextBox InfoArtist;
+        private System.Windows.Forms.Button DeleteButt;
+        private System.Windows.Forms.Button ClearListButt;
+        private System.Windows.Forms.ToolStripMenuItem playlistToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem NewPlayListMenu;
+        private System.Windows.Forms.ToolStripMenuItem EditPlaylistMenu;
+        public System.Windows.Forms.ListView MusicListBox;
+        private System.Windows.Forms.ColumnHeader NamePlaylist;
+        public System.Windows.Forms.ListView Playlists;
+        private System.Windows.Forms.ToolStripMenuItem deletePlaylistToolStripMenuItem;
     }
 }
 

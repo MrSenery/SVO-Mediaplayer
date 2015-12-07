@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApplication1", "WindowsFormsApplication1\WindowsFormsApplication1.csproj", "{C0D3C30A-E1B7-475F-8772-CCA8F2F48F33}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sanders Mediaplayer", "WindowsFormsApplication1\Sanders Mediaplayer.csproj", "{C0D3C30A-E1B7-475F-8772-CCA8F2F48F33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

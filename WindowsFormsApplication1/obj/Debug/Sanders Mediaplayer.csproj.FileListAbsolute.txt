@@ -1,0 +1,16 @@
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Main.resources
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.PlaylistForm.resources
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\obj\Debug\Sanders Mediaplayer.csproj.GenerateResource.Cache
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\bin\Debug\NAudio.dll
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\bin\Debug\NAudio.WindowsMediaFormat.dll
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\bin\Debug\policy.2.0.taglib-sharp.dll
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\bin\Debug\taglib-sharp.dll
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\bin\Debug\NAudio.xml
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\bin\Debug\policy.2.0.taglib-sharp.config
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\obj\Debug\Sanders Mediaplayer.csprojResolveAssemblyReference.cache
