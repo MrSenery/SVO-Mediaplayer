@@ -13,7 +13,7 @@ using NAudio;
 using NAudio.Wave;
 using TagLib;
 
-namespace WindowsFormsApplication1
+namespace SandersMediaplayer
 {
     public partial class PlaylistForm : Form
     {

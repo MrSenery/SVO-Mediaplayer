@@ -13,7 +13,7 @@ using NAudio;
 using NAudio.Wave;
 using TagLib;
 
-namespace WindowsFormsApplication1
+namespace SandersMediaplayer
 {
 
     public partial class Main : Form
@@ -133,7 +133,8 @@ namespace WindowsFormsApplication1
                         {
                             CoverBox.BackgroundImage = CoverBox.ErrorImage;
                         }
-                    } else
+                    }
+                    else
                     {
                         Player.Pause();
                         MusicTimer.Stop();
@@ -222,244 +223,80 @@ namespace WindowsFormsApplication1
 
         private void MusicTimer_Tick(object sender, EventArgs e)
         {
-            if (Playlists.FocusedItem.Text == "Music")
+            if (a < MusicListBox.Items.Count)
             {
-                #region HasMusic
-                TagLib.File Mp3Duration = TagLib.File.Create(Mp3Array[a]);
-                TimeSpan Length = Mp3Duration.Properties.Duration;
-                string StrLength = Length.ToString();
-                int Index = StrLength.LastIndexOf(".");
-                StrLength = StrLength.Substring(0, Index);
-                int MaxTime = Length.Seconds + Length.Minutes * 60 + Length.Hours * 60 * 60;
-                Seconds++;
-                if (Seconds >= 60)
+                if (Playlists.FocusedItem.Text == "Music")
                 {
-                    Seconds = 0;
-                    Minutes++;
-                    AddTime = AddTime + 60;
-                }
-                if (Minutes >= 60)
-                {
-                    Minutes = 0;
-                    Hours++;
-                    AddTime = AddTime + 3600;
-                }
-                TimeBar.Maximum = MaxTime;
-                TimeBar.Value = Seconds + AddTime + ScrollTime;
-                Seconds = Seconds + ScrollTime;
-                if (Seconds >= 10)
-                {
-                    if (Minutes >= 10)
+                    #region HasMusic
+                    TagLib.File Mp3Duration = TagLib.File.Create(Mp3Array[a]);
+                    TagLib.File TagFile = TagLib.File.Create(Mp3Array[a]);
+                    FileInfo InfoFile = new FileInfo(Mp3Array[a]);
+                    TimeSpan Length = Mp3Duration.Properties.Duration;
+                    string StrLength = Length.ToString();
+                    int Index = StrLength.LastIndexOf(".");
+                    StrLength = StrLength.Substring(0, Index);
+                    int MaxTime = Length.Seconds + Length.Minutes * 60 + Length.Hours * 60 * 60;
+                    Seconds++;
+                    if (Seconds >= 60)
                     {
-                        string TotalTime = "0" + Hours.ToString() + ":" + Minutes.ToString() + ":" + Seconds.ToString();
+                        Seconds = 0;
+                        Minutes++;
+                        AddTime = AddTime + 60;
                     }
-                    else
+                    if (Minutes >= 60)
                     {
-                        string TotalTime = "0" + Hours.ToString() + ":" + "0" + Minutes.ToString() + ":" + Seconds.ToString();
-                        LabelTime.Text = TotalTime + " / " + StrLength;
+                        Minutes = 0;
+                        Hours++;
+                        AddTime = AddTime + 3600;
                     }
-                }
-                else
-                {
-                    string TotalTime = "0" + Hours.ToString() + ":" + "0" + Minutes.ToString() + ":0" + Seconds.ToString();
-                    LabelTime.Text = TotalTime + " / " + StrLength;
-                }
-                if (TimeBar.Value == MaxTime)
-                {
-                    try
+                    TimeBar.Maximum = MaxTime;
+                    TimeBar.Value = Seconds + AddTime + ScrollTime;
+                    Seconds = Seconds + ScrollTime;
+                    if (Seconds >= 10)
                     {
-                        TagLib.File TagFile = TagLib.File.Create(Mp3Array[a]);
-                        MemoryStream ms = new MemoryStream(TagFile.Tag.Pictures[0].Data.Data);
-                        System.Drawing.Image image = System.Drawing.Image.FromStream(ms);
-                        CoverBox.BackgroundImage = image;
-                    }
-                    catch
-                    {
-                        CoverBox.BackgroundImage = CoverBox.ErrorImage;
-                    }
-                    if (CheckAutoPlay == true)
-                    {
-                        if (CheckShuffle == true)
+                        if (Minutes >= 10)
                         {
-                            Seconds = 0;
-                            Minutes = 0;
-                            Hours = 0;
-                            AddTime = 0;
-                            LabelTime.Text = "00:00:00 / 00:00:00";
-                            TimeBar.Maximum = 0;
-                            TimeBar.Value = 0;
-                            MaxTime = 0;
-                            Random rnd = new Random();
-                            a = rnd.Next(0, Mp3Array.Count());
-                            try
-                            {
-                                TagLib.File TagFile = TagLib.File.Create(Mp3Array[a]);
-                                FileInfo InfoFile = new FileInfo(Mp3Array[a]);
-                                if (TagFile.Tag.Title != null)
-                                {
-                                    InfoArtist.Text = TagFile.Tag.FirstPerformer + " - " + TagFile.Tag.Title;
-                                }
-                                else
-                                {
-                                    string NewInfoFile = InfoFile.Name.Replace(".mp3", "");
-                                    InfoArtist.Text = NewInfoFile;
-                                }
-                                MemoryStream ms = new MemoryStream(TagFile.Tag.Pictures[0].Data.Data);
-                                System.Drawing.Image image = System.Drawing.Image.FromStream(ms);
-                                CoverBox.BackgroundImage = image;
-                            }
-                            catch
-                            {
-                                CoverBox.BackgroundImage = CoverBox.ErrorImage;
-                            }
-                            try
-                            {
-                                AudioFileReader File = new AudioFileReader(Mp3Array[a]);
-                                Player.Init(File);
-                                Player.Play();
-                            }
-                            catch
-                            {
-                                MusicTimer.Stop();
-                                Player.Stop();
-                            }
+                            string TotalTime = "0" + Hours.ToString() + ":" + Minutes.ToString() + ":" + Seconds.ToString();
                         }
                         else
                         {
-                            Seconds = 0;
-                            Minutes = 0;
-                            Hours = 0;
-                            AddTime = 0;
-                            LabelTime.Text = "00:00:00 / 00:00:00";
-                            TimeBar.Maximum = 0;
-                            TimeBar.Value = 0;
-                            MaxTime = 0;
-                            a++;
-                            try
-                            {
-                                TagLib.File TagFile = TagLib.File.Create(Mp3Array[a]);
-                                FileInfo InfoFile = new FileInfo(Mp3Array[a]);
-                                if (TagFile.Tag.Title != null)
-                                {
-                                    InfoArtist.Text = TagFile.Tag.FirstPerformer + " - " + TagFile.Tag.Title;
-                                }
-                                else
-                                {
-                                    string NewInfoFile = InfoFile.Name.Replace(".mp3", "");
-                                    InfoArtist.Text = NewInfoFile;
-                                }
-                                MemoryStream ms = new MemoryStream(TagFile.Tag.Pictures[0].Data.Data);
-                                System.Drawing.Image image = System.Drawing.Image.FromStream(ms);
-                                CoverBox.BackgroundImage = image;
-                            }
-                            catch
-                            {
-                                CoverBox.BackgroundImage = CoverBox.ErrorImage;
-                            }
-                            try
-                            {
-                                AudioFileReader File = new AudioFileReader(Mp3Array[a]);
-                                Player.Init(File);
-                                Player.Play();
-                            }
-                            catch
-                            {
-                                MusicTimer.Stop();
-                                Player.Stop();
-                            }
+                            string TotalTime = "0" + Hours.ToString() + ":" + "0" + Minutes.ToString() + ":" + Seconds.ToString();
+                            LabelTime.Text = TotalTime + " / " + StrLength;
                         }
                     }
                     else
                     {
-                        Seconds = 0;
-                        Minutes = 0;
-                        Hours = 0;
-                        AddTime = 0;
-                        LabelTime.Text = "00:00:00 / 00:00:00";
-                        TimeBar.Maximum = 0;
-                        TimeBar.Value = 0;
-                        MaxTime = 0;
-                        a = 0;
-                        MusicTimer.Stop();
-                    }
-                    #endregion
-                }
-            }
-            else
-            {
-                #region NoMusic
-                TagLib.File Mp3Duration = TagLib.File.Create(Mp3PlaylistArray[a]);
-                TimeSpan Length = Mp3Duration.Properties.Duration;
-                string StrLength = Length.ToString();
-                int Index = StrLength.LastIndexOf(".");
-                StrLength = StrLength.Substring(0, Index);
-                int MaxTime = Length.Seconds + Length.Minutes * 60 + Length.Hours * 60 * 60;
-                Seconds++;
-                if (Seconds >= 60)
-                {
-                    Seconds = 0;
-                    Minutes++;
-                    AddTime = AddTime + 60;
-                }
-                if (Minutes >= 60)
-                {
-                    Minutes = 0;
-                    Hours++;
-                    AddTime = AddTime + 3600;
-                }
-                TimeBar.Maximum = MaxTime;
-                TimeBar.Value = Seconds + AddTime + ScrollTime;
-                Seconds = Seconds + ScrollTime;
-                if (Seconds >= 10)
-                {
-                    if (Minutes >= 10)
-                    {
-                        string TotalTime = "0" + Hours.ToString() + ":" + Minutes.ToString() + ":" + Seconds.ToString();
-                    }
-                    else
-                    {
-                        string TotalTime = "0" + Hours.ToString() + ":" + "0" + Minutes.ToString() + ":" + Seconds.ToString();
+                        string TotalTime = "0" + Hours.ToString() + ":" + "0" + Minutes.ToString() + ":0" + Seconds.ToString();
                         LabelTime.Text = TotalTime + " / " + StrLength;
                     }
-                }
-                else
-                {
-                    string TotalTime = "0" + Hours.ToString() + ":" + "0" + Minutes.ToString() + ":0" + Seconds.ToString();
-                    LabelTime.Text = TotalTime + " / " + StrLength;
-                }
-                if (TimeBar.Value == MaxTime)
-                {
-                    try
+                    if (TimeBar.Value == MaxTime)
                     {
-                        TagLib.File TagFile = TagLib.File.Create(Mp3PlaylistArray[a]);
-                        MemoryStream ms = new MemoryStream(TagFile.Tag.Pictures[0].Data.Data);
-                        System.Drawing.Image image = System.Drawing.Image.FromStream(ms);
-                        CoverBox.BackgroundImage = image;
-                    }
-                    catch
-                    {
-                        CoverBox.BackgroundImage = CoverBox.ErrorImage;
-                    }
-                    if (CheckAutoPlay == true)
-                    {
-                        if (CheckShuffle == true)
+                        try
                         {
-                            Seconds = 0;
-                            Minutes = 0;
-                            Hours = 0;
-                            AddTime = 0;
-                            LabelTime.Text = "00:00:00 / 00:00:00";
-                            TimeBar.Maximum = 0;
-                            TimeBar.Value = 0;
-                            MaxTime = 0;
-                            Random rnd = new Random();
-                            a = rnd.Next(0, Mp3PlaylistArray.Count());
-                            if (Playlists.FocusedItem.Text == "Music")
+                            MemoryStream ms = new MemoryStream(TagFile.Tag.Pictures[0].Data.Data);
+                            System.Drawing.Image image = System.Drawing.Image.FromStream(ms);
+                            CoverBox.BackgroundImage = image;
+                        }
+                        catch
+                        {
+                            CoverBox.BackgroundImage = CoverBox.ErrorImage;
+                        }
+                        if (CheckAutoPlay == true)
+                        {
+                            if (CheckShuffle == true)
                             {
+                                Seconds = 0;
+                                Minutes = 0;
+                                Hours = 0;
+                                AddTime = 0;
+                                LabelTime.Text = "00:00:00 / 00:00:00";
+                                TimeBar.Maximum = 0;
+                                TimeBar.Value = 0;
+                                MaxTime = 0;
+                                Random rnd = new Random();
+                                a = rnd.Next(0, Mp3Array.Count());
                                 try
                                 {
-                                    TagLib.File TagFile = TagLib.File.Create(Mp3PlaylistArray[a]);
-                                    FileInfo InfoFile = new FileInfo(Mp3PlaylistArray[a]);
                                     if (TagFile.Tag.Title != null)
                                     {
                                         InfoArtist.Text = TagFile.Tag.FirstPerformer + " - " + TagFile.Tag.Title;
@@ -479,7 +316,7 @@ namespace WindowsFormsApplication1
                                 }
                                 try
                                 {
-                                    AudioFileReader File = new AudioFileReader(Mp3PlaylistArray[a]);
+                                    AudioFileReader File = new AudioFileReader(Mp3Array[a]);
                                     Player.Init(File);
                                     Player.Play();
                                 }
@@ -491,10 +328,17 @@ namespace WindowsFormsApplication1
                             }
                             else
                             {
+                                Seconds = 0;
+                                Minutes = 0;
+                                Hours = 0;
+                                AddTime = 0;
+                                LabelTime.Text = "00:00:00 / 00:00:00";
+                                TimeBar.Maximum = 0;
+                                TimeBar.Value = 0;
+                                MaxTime = 0;
+                                a++;
                                 try
                                 {
-                                    TagLib.File TagFile = TagLib.File.Create(Mp3PlaylistArray[a]);
-                                    FileInfo InfoFile = new FileInfo(Mp3PlaylistArray[a]);
                                     if (TagFile.Tag.Title != null)
                                     {
                                         InfoArtist.Text = TagFile.Tag.FirstPerformer + " - " + TagFile.Tag.Title;
@@ -512,10 +356,9 @@ namespace WindowsFormsApplication1
                                 {
                                     CoverBox.BackgroundImage = CoverBox.ErrorImage;
                                 }
-                                a = rnd.Next(0, Mp3PlaylistArray.Count());
                                 try
                                 {
-                                    AudioFileReader File = new AudioFileReader(Mp3PlaylistArray[a]);
+                                    AudioFileReader File = new AudioFileReader(Mp3Array[a]);
                                     Player.Init(File);
                                     Player.Play();
                                 }
@@ -536,58 +379,213 @@ namespace WindowsFormsApplication1
                             TimeBar.Maximum = 0;
                             TimeBar.Value = 0;
                             MaxTime = 0;
-                            a++;
-                            try
-                            {
-                                TagLib.File TagFile = TagLib.File.Create(Mp3PlaylistArray[a]);
-                                FileInfo InfoFile = new FileInfo(Mp3PlaylistArray[a]);
-                                if (TagFile.Tag.Title != null)
-                                {
-                                    InfoArtist.Text = TagFile.Tag.FirstPerformer + " - " + TagFile.Tag.Title;
-                                }
-                                else
-                                {
-                                    string NewInfoFile = InfoFile.Name.Replace(".mp3", "");
-                                    InfoArtist.Text = NewInfoFile;
-                                }
-                                MemoryStream ms = new MemoryStream(TagFile.Tag.Pictures[0].Data.Data);
-                                System.Drawing.Image image = System.Drawing.Image.FromStream(ms);
-                                CoverBox.BackgroundImage = image;
-                            }
-                            catch
-                            {
-                                CoverBox.BackgroundImage = CoverBox.ErrorImage;
-                            }
-                            try
-                            {
-                                AudioFileReader File = new AudioFileReader(Mp3PlaylistArray[a]);
-                                Player.Init(File);
-                                Player.Play();
-                            }
-                            catch
-                            {
-                                MusicTimer.Stop();
-                                Player.Stop();
-                            }
+                            a = 0;
+                            MusicTimer.Stop();
+                        }
+                        #endregion
+                    }
+                }
+                if (Playlists.FocusedItem.Text != "Music")
+                {
+                    #region NoMusic
+                    TagLib.File Mp3Duration = TagLib.File.Create(Mp3PlaylistArray[a]);
+                    TagLib.File TagFile = TagLib.File.Create(Mp3PlaylistArray[a]);
+                    FileInfo InfoFile = new FileInfo(Mp3PlaylistArray[a]);
+                    AudioFileReader File = new AudioFileReader(Mp3PlaylistArray[a]);
+                    TimeSpan Length = Mp3Duration.Properties.Duration;
+                    string StrLength = Length.ToString();
+                    int Index = StrLength.LastIndexOf(".");
+                    StrLength = StrLength.Substring(0, Index);
+                    int MaxTime = Length.Seconds + Length.Minutes * 60 + Length.Hours * 60 * 60;
+                    Seconds++;
+                    if (Seconds >= 60)
+                    {
+                        Seconds = 0;
+                        Minutes++;
+                        AddTime = AddTime + 60;
+                    }
+                    if (Minutes >= 60)
+                    {
+                        Minutes = 0;
+                        Hours++;
+                        AddTime = AddTime + 3600;
+                    }
+                    TimeBar.Maximum = MaxTime;
+                    TimeBar.Value = Seconds + AddTime + ScrollTime;
+                    Seconds = Seconds + ScrollTime;
+                    if (Seconds >= 10)
+                    {
+                        if (Minutes >= 10)
+                        {
+                            string TotalTime = "0" + Hours.ToString() + ":" + Minutes.ToString() + ":" + Seconds.ToString();
+                        }
+                        else
+                        {
+                            string TotalTime = "0" + Hours.ToString() + ":" + "0" + Minutes.ToString() + ":" + Seconds.ToString();
+                            LabelTime.Text = TotalTime + " / " + StrLength;
                         }
                     }
                     else
                     {
-                        Seconds = 0;
-                        Minutes = 0;
-                        Hours = 0;
-                        AddTime = 0;
-                        LabelTime.Text = "00:00:00 / 00:00:00";
-                        TimeBar.Maximum = 0;
-                        TimeBar.Value = 0;
-                        MaxTime = 0;
-                        a = 0;
-                        MusicTimer.Stop();
+                        string TotalTime = "0" + Hours.ToString() + ":" + "0" + Minutes.ToString() + ":0" + Seconds.ToString();
+                        LabelTime.Text = TotalTime + " / " + StrLength;
                     }
-                    #endregion
+                    if (TimeBar.Value == MaxTime)
+                    {
+                        try
+                        {
+                            MemoryStream ms = new MemoryStream(TagFile.Tag.Pictures[0].Data.Data);
+                            System.Drawing.Image image = System.Drawing.Image.FromStream(ms);
+                            CoverBox.BackgroundImage = image;
+                        }
+                        catch
+                        {
+                            CoverBox.BackgroundImage = CoverBox.ErrorImage;
+                        }
+                        if (CheckAutoPlay == true)
+                        {
+                            if (CheckShuffle == true)
+                            {
+                                Seconds = 0;
+                                Minutes = 0;
+                                Hours = 0;
+                                AddTime = 0;
+                                LabelTime.Text = "00:00:00 / 00:00:00";
+                                TimeBar.Maximum = 0;
+                                TimeBar.Value = 0;
+                                MaxTime = 0;
+                                Random rnd = new Random();
+                                a = rnd.Next(0, Mp3PlaylistArray.Count());
+                                if (Playlists.FocusedItem.Text == "Music")
+                                {
+                                    try
+                                    {
+                                        if (TagFile.Tag.Title != null)
+                                        {
+                                            InfoArtist.Text = TagFile.Tag.FirstPerformer + " - " + TagFile.Tag.Title;
+                                        }
+                                        else
+                                        {
+                                            string NewInfoFile = InfoFile.Name.Replace(".mp3", "");
+                                            InfoArtist.Text = NewInfoFile;
+                                        }
+                                        MemoryStream ms = new MemoryStream(TagFile.Tag.Pictures[0].Data.Data);
+                                        System.Drawing.Image image = System.Drawing.Image.FromStream(ms);
+                                        CoverBox.BackgroundImage = image;
+                                    }
+                                    catch
+                                    {
+                                        CoverBox.BackgroundImage = CoverBox.ErrorImage;
+                                    }
+                                    try
+                                    {
+                                        Player.Init(File);
+                                        Player.Play();
+                                    }
+                                    catch
+                                    {
+                                        MusicTimer.Stop();
+                                        Player.Stop();
+                                    }
+                                }
+                                else
+                                {
+                                    try
+                                    {
+                                        if (TagFile.Tag.Title != null)
+                                        {
+                                            InfoArtist.Text = TagFile.Tag.FirstPerformer + " - " + TagFile.Tag.Title;
+                                        }
+                                        else
+                                        {
+                                            string NewInfoFile = InfoFile.Name.Replace(".mp3", "");
+                                            InfoArtist.Text = NewInfoFile;
+                                        }
+                                        MemoryStream ms = new MemoryStream(TagFile.Tag.Pictures[0].Data.Data);
+                                        System.Drawing.Image image = System.Drawing.Image.FromStream(ms);
+                                        CoverBox.BackgroundImage = image;
+                                    }
+                                    catch
+                                    {
+                                        CoverBox.BackgroundImage = CoverBox.ErrorImage;
+                                    }
+                                    a = rnd.Next(0, Mp3PlaylistArray.Count());
+                                    try
+                                    {
+                                        Player.Init(File);
+                                        Player.Play();
+                                    }
+                                    catch
+                                    {
+                                        MusicTimer.Stop();
+                                        Player.Stop();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                Seconds = 0;
+                                Minutes = 0;
+                                Hours = 0;
+                                AddTime = 0;
+                                LabelTime.Text = "00:00:00 / 00:00:00";
+                                TimeBar.Maximum = 0;
+                                TimeBar.Value = 0;
+                                MaxTime = 0;
+                                a++;
+                                try
+                                {
+                                    if (TagFile.Tag.Title != null)
+                                    {
+                                        InfoArtist.Text = TagFile.Tag.FirstPerformer + " - " + TagFile.Tag.Title;
+                                    }
+                                    else
+                                    {
+                                        string NewInfoFile = InfoFile.Name.Replace(".mp3", "");
+                                        InfoArtist.Text = NewInfoFile;
+                                    }
+                                    MemoryStream ms = new MemoryStream(TagFile.Tag.Pictures[0].Data.Data);
+                                    System.Drawing.Image image = System.Drawing.Image.FromStream(ms);
+                                    CoverBox.BackgroundImage = image;
+                                }
+                                catch
+                                {
+                                    CoverBox.BackgroundImage = CoverBox.ErrorImage;
+                                }
+                                try
+                                {
+                                    Player.Init(File);
+                                    Player.Play();
+                                }
+                                catch
+                                {
+                                    MusicTimer.Stop();
+                                    Player.Stop();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Seconds = 0;
+                            Minutes = 0;
+                            Hours = 0;
+                            AddTime = 0;
+                            LabelTime.Text = "00:00:00 / 00:00:00";
+                            TimeBar.Maximum = 0;
+                            TimeBar.Value = 0;
+                            MaxTime = 0;
+                            a = 0;
+                            MusicTimer.Stop();
+                        }
+                        #endregion
+                    }
                 }
+            } else
+            {
+
             }
         }
+
 
         private void TimeBar_Scroll(object sender, EventArgs e)
         {
@@ -611,7 +609,8 @@ namespace WindowsFormsApplication1
                 }
                 CheckFocusedItem = true;
                 FirstPlay = false;
-            } else
+            }
+            else
             {
                 try
                 {
@@ -638,7 +637,7 @@ namespace WindowsFormsApplication1
             Mp3File.Multiselect = true;
             if (Mp3File.ShowDialog() == DialogResult.OK)
             {
-                foreach(ListViewItem Item in Playlists.Items)
+                foreach (ListViewItem Item in Playlists.Items)
                 {
                     if (Item.Text == "Music")
                     {
@@ -656,7 +655,7 @@ namespace WindowsFormsApplication1
                 if (CheckItems)
                 {
                     MusicListBox.Items.Clear();
-                }              
+                }
                 Playlists.Items.Add("Music");
                 Mp3PlaylistArray.Add("Music");
                 foreach (var Items in TempArray)
@@ -838,6 +837,13 @@ namespace WindowsFormsApplication1
 
         private void Playlists_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //if (Playlists.FocusedItem.Text != "Music")
+            //{
+            //    MusicTimer.Stop();
+            //    Player.Pause();
+            //    PauseButton.Visible = false;
+            //    PlayButton.Visible = true;
+            //}
             string line;
             MusicListBox.Items.Clear();
             Mp3PlaylistArray.Clear();

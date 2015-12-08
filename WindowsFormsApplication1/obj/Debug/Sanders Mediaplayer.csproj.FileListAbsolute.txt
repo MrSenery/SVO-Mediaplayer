@@ -1,5 +1,3 @@
-C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Main.resources
-C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.PlaylistForm.resources
 C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
 C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\obj\Debug\Sanders Mediaplayer.csproj.GenerateResource.Cache
 C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
@@ -14,3 +12,5 @@ C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplicat
 C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\bin\Debug\policy.2.0.taglib-sharp.config
 C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
 C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\obj\Debug\Sanders Mediaplayer.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\obj\Debug\SandersMediaplayer.Main.resources
+C:\Users\Admin\Desktop\Sander's MediaPlayer\SVO-Mediaplayer\WindowsFormsApplication1\obj\Debug\SandersMediaplayer.PlaylistForm.resources
