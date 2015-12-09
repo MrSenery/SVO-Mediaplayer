@@ -67,6 +67,7 @@
             this.PlayListList2.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.AddedNamePlay,
             this.AddedArtistPlay});
+            this.PlayListList2.FullRowSelect = true;
             this.PlayListList2.Location = new System.Drawing.Point(308, 12);
             this.PlayListList2.Name = "PlayListList2";
             this.PlayListList2.Size = new System.Drawing.Size(210, 300);
@@ -91,6 +92,7 @@
             this.PlayListList1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.PlayListName,
             this.PlayListArtist});
+            this.PlayListList1.FullRowSelect = true;
             this.PlayListList1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.PlayListList1.Location = new System.Drawing.Point(12, 12);
             this.PlayListList1.Name = "PlayListList1";

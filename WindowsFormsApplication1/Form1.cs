@@ -586,12 +586,6 @@ namespace SandersMediaplayer
             }
         }
 
-
-        private void TimeBar_Scroll(object sender, EventArgs e)
-        {
-            Seconds = Seconds + 1;
-        }
-
         private void MusicListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (Playlists.FocusedItem.Text == "Music")
@@ -652,28 +646,13 @@ namespace SandersMediaplayer
                 {
                     TempArray.Add(Items);
                 }
-                if (CheckItems)
-                {
-                    MusicListBox.Items.Clear();
-                }
                 Playlists.Items.Add("Music");
                 Mp3PlaylistArray.Add("Music");
+                MusicListBox.Items.Clear();
                 foreach (var Items in TempArray)
                 {
                     try
                     {
-                        TagLib.File TagFile = TagLib.File.Create(Items);
-                        TimeSpan Length = TagFile.Properties.Duration;
-                        string StrLength = Length.ToString();
-                        int Index = StrLength.LastIndexOf(".");
-                        StrLength = StrLength.Substring(0, Index);
-                        ListViewItem item = new ListViewItem();
-                        item.Text = TagFile.Tag.Track.ToString();
-                        item.SubItems.Add(TagFile.Tag.Title);
-                        item.SubItems.Add(TagFile.Tag.FirstPerformer);
-                        item.SubItems.Add(TagFile.Tag.Album);
-                        item.SubItems.Add(StrLength);
-                        MusicListBox.Items.Add(item);
                         tw.WriteLine(Items);
                         Mp3Array.Add(Items);
                         CheckItems = true;
@@ -685,6 +664,27 @@ namespace SandersMediaplayer
                         break;
                     }
                 }
+                try
+                {
+                    if (Playlists.FocusedItem.Text == "Music")
+                    {
+                        foreach (var Items in Mp3Array)
+                        {
+                            TagLib.File TagFile = TagLib.File.Create(Items);
+                            TimeSpan Length = TagFile.Properties.Duration;
+                            string StrLength = Length.ToString();
+                            int Index = StrLength.LastIndexOf(".");
+                            StrLength = StrLength.Substring(0, Index);
+                            ListViewItem item = new ListViewItem();
+                            item.Text = TagFile.Tag.Track.ToString();
+                            item.SubItems.Add(TagFile.Tag.Title);
+                            item.SubItems.Add(TagFile.Tag.FirstPerformer);
+                            item.SubItems.Add(TagFile.Tag.Album);
+                            item.SubItems.Add(StrLength);
+                            MusicListBox.Items.Add(item);
+                        }
+                    }
+                } catch { }
                 TempArray.Clear();
                 tw.Close();
             }
@@ -837,13 +837,6 @@ namespace SandersMediaplayer
 
         private void Playlists_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //if (Playlists.FocusedItem.Text != "Music")
-            //{
-            //    MusicTimer.Stop();
-            //    Player.Pause();
-            //    PauseButton.Visible = false;
-            //    PlayButton.Visible = true;
-            //}
             string line;
             MusicListBox.Items.Clear();
             Mp3PlaylistArray.Clear();

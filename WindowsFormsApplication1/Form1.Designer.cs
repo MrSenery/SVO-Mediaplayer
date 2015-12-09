@@ -48,6 +48,7 @@
             this.playlistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NewPlayListMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.EditPlaylistMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.deletePlaylistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.CheckBoxShuffle = new System.Windows.Forms.CheckBox();
             this.CheckBoxAutoPlay = new System.Windows.Forms.CheckBox();
             this.CoverBox = new System.Windows.Forms.PictureBox();
@@ -56,7 +57,6 @@
             this.ClearListButt = new System.Windows.Forms.Button();
             this.NamePlaylist = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Playlists = new System.Windows.Forms.ListView();
-            this.deletePlaylistToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.TimeBar)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.CoverBox)).BeginInit();
@@ -71,7 +71,6 @@
             this.TimeBar.TabIndex = 12;
             this.TimeBar.TickFrequency = 5;
             this.TimeBar.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.TimeBar.Scroll += new System.EventHandler(this.TimeBar_Scroll);
             // 
             // PauseButton
             // 
@@ -107,6 +106,7 @@
             this.AlbumCol,
             this.ArtistCol,
             this.LengthCol});
+            this.MusicListBox.FullRowSelect = true;
             this.MusicListBox.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.MusicListBox.Location = new System.Drawing.Point(312, 30);
             this.MusicListBox.MultiSelect = false;
@@ -197,15 +197,22 @@
             // NewPlayListMenu
             // 
             this.NewPlayListMenu.Name = "NewPlayListMenu";
-            this.NewPlayListMenu.Size = new System.Drawing.Size(152, 22);
+            this.NewPlayListMenu.Size = new System.Drawing.Size(147, 22);
             this.NewPlayListMenu.Text = "New Playlist";
             this.NewPlayListMenu.Click += new System.EventHandler(this.newPlaylistToolStripMenuItem_Click);
             // 
             // EditPlaylistMenu
             // 
             this.EditPlaylistMenu.Name = "EditPlaylistMenu";
-            this.EditPlaylistMenu.Size = new System.Drawing.Size(152, 22);
+            this.EditPlaylistMenu.Size = new System.Drawing.Size(147, 22);
             this.EditPlaylistMenu.Text = "Edit Playlist";
+            // 
+            // deletePlaylistToolStripMenuItem
+            // 
+            this.deletePlaylistToolStripMenuItem.Name = "deletePlaylistToolStripMenuItem";
+            this.deletePlaylistToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.deletePlaylistToolStripMenuItem.Text = "Delete Playlist";
+            this.deletePlaylistToolStripMenuItem.Click += new System.EventHandler(this.deletePlaylistToolStripMenuItem_Click);
             // 
             // CheckBoxShuffle
             // 
@@ -282,6 +289,7 @@
             // 
             this.Playlists.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.NamePlaylist});
+            this.Playlists.FullRowSelect = true;
             this.Playlists.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.Playlists.Location = new System.Drawing.Point(12, 166);
             this.Playlists.Name = "Playlists";
@@ -290,13 +298,6 @@
             this.Playlists.UseCompatibleStateImageBehavior = false;
             this.Playlists.View = System.Windows.Forms.View.Details;
             this.Playlists.SelectedIndexChanged += new System.EventHandler(this.Playlists_SelectedIndexChanged);
-            // 
-            // deletePlaylistToolStripMenuItem
-            // 
-            this.deletePlaylistToolStripMenuItem.Name = "deletePlaylistToolStripMenuItem";
-            this.deletePlaylistToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.deletePlaylistToolStripMenuItem.Text = "Delete Playlist";
-            this.deletePlaylistToolStripMenuItem.Click += new System.EventHandler(this.deletePlaylistToolStripMenuItem_Click);
             // 
             // Main
             // 
