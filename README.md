@@ -1,3 +1,3 @@
 # SVO-Mediaplayer
-A Basic mediaplayer
+A Basic mediaplayer.
 Dont use this its bad
